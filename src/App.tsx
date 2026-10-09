@@ -8,7 +8,7 @@ type Page = 'home' | 'work' | 'resume' | 'about'
 type Target = Page | 'play'
 type ProjectKey = 'battle' | 'pico' | 'review'
 
-const BASE = import.meta.env.BASE_URL
+const BASE = './'
 const artwork = `${BASE}assets/home-art.webp`
 
 const projects: { key: ProjectKey; name: string; type: string; summary: string; repo: string }[] = [
