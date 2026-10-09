@@ -1,51 +1,29 @@
-# CKH / Page — interactive portfolio prototype
+# 조경환 — 인터랙티브 게임 기획 포트폴리오
 
-An original, lightweight frontend prototype for an aspiring game designer's portfolio. The layout starts from a personal sketch: a steep, black editorial shape on the left and a janggu drummer on the right. Its visual language is influenced by Atlus's strong character-led menu composition and expressive editorial layouts, without using game assets, fonts, source code, or artwork from Atlus.
+React, TypeScript, Vite, Tailwind CSS, shadcn/ui 기반 버튼, Motion, Radix UI로 만든 포트폴리오.
 
-## Features
+## 현재 공개 시안
 
-- Responsive black/cream landing page with an original inline SVG drummer.
-- Subtle idle animation and a deliberately staged **windup → last beat → diagonal ink/print cut → new page** menu transition.
-- Working portfolio, résumé, and introduction pages with project links.
-- Accessible keyboard-operated rhythm interaction *preview* using Space and Right Arrow, with a short four-beat call-and-response sequence.
-- Optional synthesized sound; off by default.
-- Reduced-motion support, Escape to exit the rhythm preview, basic focus management, deep links via `#work`, `#resume`, and `#about`.
-- Static files only — no install/build step, runtime services, trackers, or backend.
+- 홈은 선택된 고품질 원화 자체를 래스터 이미지로 사용한다. 캐릭터·붓획을 SVG/CSS 도형으로 재생산하지 않는다.
+- 메뉴와 세 개의 프로젝트 카드는 원화 위에 실제 클릭/키보드 입력이 가능한 투명 상호작용 영역을 사용한다.
+- 포트폴리오/이력서/자기소개와 간단한 장구 키 입력 모달이 동작한다.
+- 모바일은 배경 일러스트를 크롭한 배너와 별도 읽기 쉬운 네비게이션을 사용한다.
+- 이력서/자기소개 문안, 프로젝트 상세 이미지와 장구 애니메이션은 후속 작업에서 추가할 임시 콘텐츠이다.
 
-## Preview locally
+## 실행
 
-Open `index.html` in a browser, or run:
-
-```sh
-python -m http.server 8000
+```
+npm install
+npm run dev
+npm run build
 ```
 
-Then visit `http://localhost:8000`.
+GitHub Pages는 `main`에 푸시되면 GitHub Actions에서 Vite 빌드를 배포한다.
 
-## Deploy to GitHub Pages
+## 에셋 출처
 
-1. Open this repository's **Settings → Pages**.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Select **main**, **/(root)**, and Save.
-4. After deployment is confirmed, visit `https://chokyunghwan98.github.io/Page/`.
+`public/assets/home-art.webp`는 이 포트폴리오를 위해 제작한 원화 이미지를 WebP로 변환해 사용한다.
 
-If GitHub Pages is disabled or still publishing, the site URL will not work until deployment finishes. The GitHub connector may not have permission to change repository Pages settings; that step can require the owner.
+## 주의
 
-## Prototype scope
-
-This is **not** the finished rhythm game. The home and menu transitions are testable; the Play action provides a minimal rhythm interaction to validate controls and visual feedback. Final character artwork, soundtrack, game pattern rules, real résumé content, and further art direction can be refined later. The résumé/about copy is a prototype summary, not a formal application document.
-
-## Assets and references
-
-All visual graphics and animation code in this repository are original HTML/CSS/SVG/JavaScript created for this prototype. No third-party animation source code has been copied. External references that informed the exploration:
-
-- [21st.dev](https://21st.dev/) — animation-component inspiration.
-- [Codrops](https://tympanus.net/codrops/) — experimental page-transition studies.
-- [Metaphor: ReFantazio](https://atlus.com/) and [Persona 3 Reload](https://atlus.com/) — character-directed interactive UI and art-direction study. No proprietary artwork included.
-
-## File structure
-
-- `index.html`: all screens and original SVG character
-- `styles.css`: typography, composition, animations, responsive styles
-- `script.js`: transitions, navigation, Web Audio, rhythm preview
-- `README.md`: usage and deployment notes
+원화에는 일부 메뉴와 프로젝트 이름이 이미지에 포함되어 있다. 홈 화면은 정확한 미술 재현을 우선하는 버전이며, 향후 개별 레이어 분리와 글자 접근성 및 해상도별 아트디렉션 개선이 필요하다.
