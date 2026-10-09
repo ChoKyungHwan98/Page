@@ -1,0 +1,31 @@
+name: Home v2 React validation
+on:
+  push:
+    branches:
+      - feat/home-v2-brush-character
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'vite.config.ts'
+      - 'tsconfig*'
+      - 'index.html'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        run: npm install
+      - name: Type check and build
+        run: npm run build
+      - name: Upload preview build
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-home-v2-preview
+          path: dist/
