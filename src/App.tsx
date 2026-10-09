@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ArrowLeft, ArrowUpRight, ArrowRight, Volume2, VolumeX, X, Music2 } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, ArrowRight, Volume2, VolumeX, X } from 'lucide-react'
 import { Button } from './components/ui/button'
 import Drummer from './components/Drummer'
 import InkField from './components/InkField'
