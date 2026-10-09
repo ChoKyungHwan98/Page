@@ -88,37 +88,20 @@ export default function App() {
   return <div className="app-shell">
     <AnimatePresence mode="wait">
       {page === 'home' ? <motion.main key="home" className="home-page" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .28 }}>
-        <div className="poster" aria-label="게임 기획자 조경환의 포트폴리오 홈">
-          <img className="poster-art" src={artwork} alt="장구를 든 캐릭터와 수묵화풍 도시 원화" draggable={false}/>
-          <img className="poster-ink" src={`${BASE}assets/ink-panel.webp`} alt="" aria-hidden="true" draggable={false}/>
-          <img className="project-backdrop" src={`${BASE}assets/project-backdrop.webp`} alt="" aria-hidden="true" draggable={false}/>
-          <header className="real-identity"><span className="identity-mark" aria-hidden="true"/><div><strong>조경환</strong><small>전투 · 시스템 기획자</small></div></header>
-          <nav className="real-navigation" aria-label="주 메뉴">
-            {([
-              {id:'work',text:'포트폴리오',kind:'paper',onClick:()=>goWork(null)},
-              {id:'resume',text:'이력서',kind:'normal',onClick:()=>navigate('resume')},
-              {id:'about',text:'자기소개',kind:'normal',onClick:()=>navigate('about')},
-              {id:'play',text:'시작하기',kind:'rust',onClick:()=>navigate('play')}
-            ] as const).map((item,i)=><motion.button type="button" key={item.id}
-               className={`real-menu-item real-menu-item--${item.kind}`} onClick={item.onClick}
-               whileHover={reduced?{}:{x:5}} whileTap={reduced?{}:{scale:.985}}
-               transition={{type:'spring',stiffness:380,damping:25}} aria-label={item.text}>
-              {item.kind!=='normal'&&<img className="real-menu-brush" src={`${BASE}assets/brush-${item.kind==='rust'?'rust':'paper'}.webp`} alt="" aria-hidden="true"/>}
-              <span className="real-menu-number" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><span className="real-menu-text">{item.text}</span>
-              {item.kind==='rust'&&<span className="real-menu-play-icon" aria-hidden="true">▶</span>}
-            </motion.button>)}
+        <div className="poster poster--master-art" aria-label="조경환의 게임 기획 포트폴리오">
+          <img className="poster-art" src={artwork} alt="장구를 든 캐릭터, 먹으로 그린 판타지 도시와 한글 메뉴로 구성된 포트폴리오 홈" draggable={false} />
+          <nav className="art-hotspots" aria-label="메인 메뉴">
+            <button className="art-hit art-hit--work" type="button" aria-label="포트폴리오 열기" title="포트폴리오 열기" onClick={()=>goWork(null)} />
+            <button className="art-hit art-hit--resume" type="button" aria-label="이력서 열기" title="이력서 열기" onClick={()=>navigate('resume')} />
+            <button className="art-hit art-hit--about" type="button" aria-label="자기소개 열기" title="자기소개 열기" onClick={()=>navigate('about')} />
+            <button className="art-hit art-hit--play" type="button" aria-label="장구 리듬 체험 시작하기" title="장구 리듬 체험" onClick={()=>navigate('play')} />
           </nav>
-          <div className="project-dock" aria-label="대표 작업 바로가기">
-            {projects.map((p,i)=><motion.button type="button" key={p.key} className="project-dock-card"
-                 onClick={()=>goWork(p.key)} whileHover={reduced?{}:{x:-7,scale:1.015}}
-                 whileTap={reduced?{}:{scale:.99}} transition={{type:'spring',stiffness:390,damping:29}}>
-              <span className="dock-meta"><span>{String(i+1).padStart(2,'0')}</span><strong>{p.name}</strong><small>{p.type}</small></span>
-              <span className="dock-art"><img src={`${BASE}assets/${p.key}.webp`} alt="" loading="eager"/></span>
-            </motion.button>)}
+          <div className="art-project-links" role="group" aria-label="대표 프로젝트">
+            {projects.map(p=><button key={p.key} type="button" className={"art-hit art-hit--"+p.key}
+              aria-label={p.name+" 프로젝트 확인"} title={p.name+" 프로젝트 확인"} onClick={()=>goWork(p.key)}/>)}
           </div>
-          <button className="poster-sound" type="button" aria-label={soundOn?'소리 끄기':'소리 켜기'} onClick={()=>setSoundOn(v=>!v)}>
-            {soundOn?<Volume2 size={19}/>:<VolumeX size={19}/>}<span>{soundOn?'소리 켜짐':'소리 끄기'}</span>
-          </button>
+          <button className="art-sound" type="button" onClick={()=>setSoundOn(v=>!v)}
+            title={soundOn?'소리 끄기':'소리 켜기'} aria-label={soundOn?'소리 끄기':'소리 켜기'} aria-pressed={soundOn}/>
         </div>
         <div className="mobile-home">
           <header className="mobile-heading"><strong>조경환</strong><span>전투 · 시스템 기획자</span><button onClick={() => setSoundOn(v => !v)} aria-label="소리 설정">{soundOn ? <Volume2 size={20} /> : <VolumeX size={20} />}</button></header>
@@ -135,7 +118,7 @@ export default function App() {
             <div className={`work-artwork work-artwork--${p.key}`} style={{ backgroundImage: `url(${BASE}assets/${p.key}.webp)` }} aria-hidden="true" />
             <div className="work-description"><span className="work-counter">{String(i + 1).padStart(2, '0')} / 03</span><h2>{p.name}</h2><strong>{p.type}</strong><p>{p.summary}</p><Button asChild><a href={p.repo} target="_blank" rel="noopener noreferrer">프로젝트 확인 <ArrowUpRight size={17}/></a></Button></div>
           </article>)}</div>
-        </div> : <section className="profile-content"><p className="profile-eyebrow">{page === 'resume' ? '이력서' : '자기소개'}</p><h2>{page === 'resume' ? '전투와 시스템을 설계합니다.' : '게임을 설계하는 이유'}</h2><p>{page === 'resume' ? '전투 기획·시스템 설계·프로토타이핑에 집중하고 있습니다. 정식 이력서는 별도로 정리하여 이 페이지에 연결할 예정입니다.' : '기획 경험과 지원 동기를 정리할 공간입니다. 현재 홈 리디자인 검토 중이므로 임시 문안만 표시합니다.'}</p><Button variant="outline" onClick={() => navigate('work')}>작업 먼저 보기 <ArrowUpRight size={17}/></Button></section>}
+        </div> : <section className="profile-content"><p className="profile-eyebrow">{page === 'resume' ? '이력서' : '자기소개'}</p><h2>{page === 'resume' ? '전투와 시스템을 설계합니다.' : '게임을 설계하는 이유'}</h2><p>{page === 'resume' ? '전투 기획·시스템 설계·프로토타이핑에 집중하고 있습니다. 정식 이력서의 자세한 내용은 아래 링크에서 확인할 수 있습니다.' : '게임 기획 경험과 지원 동기는 기존 포트폴리오의 자기소개서에서 확인할 수 있습니다.'}</p><div className="profile-actions"><Button asChild><a href={page === 'resume' ? 'https://chokyunghwan98.github.io/Portfolio/?view=resume' : 'https://chokyunghwan98.github.io/Portfolio/?view=cover-letter'} target="_blank" rel="noopener noreferrer">{page === 'resume' ? '기존 이력서 자세히 보기' : '자기소개서 자세히 보기'} <ArrowUpRight size={17}/></a></Button><Button variant="outline" onClick={() => navigate('work')}>대표 작업 보기 <ArrowUpRight size={17}/></Button></div></section>}
         <footer className="inside-footer">조경환 · 전투 / 시스템 기획 <button onClick={() => navigate('home')}>처음으로 ↑</button></footer>
       </motion.main>}
     </AnimatePresence>

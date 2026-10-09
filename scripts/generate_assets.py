@@ -67,3 +67,16 @@ for i in range(1500):
  x=rand.randint(14,rw-30);y=rand.randint(15,rh-18);v=rand.randint(16,29);bd.point((x,y),fill=(v,v-1,v-1,255))
 back.save(out/"project-backdrop.webp","WEBP",quality=85,method=6)
 print("Generated raster menu and project backing assets.")
+
+
+# High-quality native source-art crops, no new artificial CSS/SVG illustrations.
+# These are genuine pixels from each original card's artwork (text-free right-hand area).
+card_rects={
+ "battle":(1403,477,1623,595),
+ "pico":(1403,609,1623,728),
+ "review":(1403,740,1623,858),
+}
+for name,box in card_rects.items():
+  card=src.crop(box).resize((660,357),Image.Resampling.LANCZOS)
+  card.save(out/f"{name}.webp","WEBP",quality=88,method=6)
+print("Generated 3 project image crops from master illustration.")
