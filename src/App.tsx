@@ -9,7 +9,6 @@ type Target = Page | 'play'
 type ProjectKey = 'battle' | 'pico' | 'review'
 
 const BASE = './'
-const artwork = `${BASE}assets/home-art.webp`
 
 const projects: { key: ProjectKey; name: string; type: string; summary: string; repo: string }[] = [
   { key: 'battle', name: 'BATTLE', type: '전투·보스 AI 기획', summary: '전투의 리듬과 보스의 판단을 구조화한 전투 기획·프로토타입', repo: 'https://github.com/ChoKyungHwan98/Battle' },

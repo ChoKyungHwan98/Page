@@ -59,7 +59,7 @@
 /* V5 — art and interface occupy distinct editorial planes.
    Background and pigment remain image assets; CSS does layout only. */
 .showcase-home{display:grid;grid-template-columns:minmax(290px,28%) minmax(0,48%) minmax(292px,24%);min-height:max(720px,100dvh);height:100dvh;overflow:hidden;background:#151310;color:#f1eadf}
-.showcase-nav,.showcase-works{position:relative;z-index:2;background:#151310 url('../assets/nav-ink.webp') center/cover no-repeat}
+.showcase-nav,.showcase-works{position:relative;z-index:2;background:#151310 url('/assets/nav-ink.webp') center/cover no-repeat}
 .showcase-nav{display:flex;flex-direction:column;padding:clamp(35px,4.4vw,72px) clamp(22px,3vw,60px) 36px;border-right:1px solid #d9cec21e;box-shadow:8px 0 30px #100e0c15}
 .showcase-identity{display:flex;flex-direction:column;gap:5px;border-left:3px solid #be4b32;padding-left:18px}
 .showcase-identity strong{font-family:'Gowun Batang',serif;font-size:clamp(22px,1.75vw,31px);font-weight:700;letter-spacing:-.045em}
