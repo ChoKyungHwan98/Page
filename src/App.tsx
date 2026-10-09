@@ -49,6 +49,7 @@ export default function App() {
   const [play, setPlay] = useState(false)
   const [hitCount, setHitCount] = useState(0)
   const [lastSide, setLastSide] = useState<'왼쪽' | '오른쪽'>('왼쪽')
+  const [activeMenu, setActiveMenu] = useState<'work'|'resume'|'about'|'play'>('work')
   const [switching, setSwitching] = useState(false)
   const { enabled: soundOn, setEnabled: setSoundOn, sound } = useHitSound()
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -84,28 +85,80 @@ export default function App() {
     return () => window.removeEventListener('keydown', key)
   }, [play, tap])
 
+  useEffect(() => {
+    if (page !== 'work' || !project) return
+    const t = setTimeout(() => document.getElementById('work-'+project)?.scrollIntoView({ behavior: reduced?'instant':'smooth', block: 'start' }),120)
+    return () => clearTimeout(t)
+  },[page,project,reduced])
   const goWork = (which: ProjectKey | null) => navigate('work', which)
   return <div className="app-shell">
     <AnimatePresence mode="wait">
       {page === 'home' ? <motion.main key="home" className="home-page" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .28 }}>
-        <div className="poster poster--master-art" aria-label="조경환의 게임 기획 포트폴리오">
-          <img className="poster-art" src={artwork} alt="장구를 든 캐릭터, 먹으로 그린 판타지 도시와 한글 메뉴로 구성된 포트폴리오 홈" draggable={false} />
-          <nav className="art-hotspots" aria-label="메인 메뉴">
-            <button className="art-hit art-hit--work" type="button" aria-label="포트폴리오 열기" title="포트폴리오 열기" onClick={()=>goWork(null)} />
-            <button className="art-hit art-hit--resume" type="button" aria-label="이력서 열기" title="이력서 열기" onClick={()=>navigate('resume')} />
-            <button className="art-hit art-hit--about" type="button" aria-label="자기소개 열기" title="자기소개 열기" onClick={()=>navigate('about')} />
-            <button className="art-hit art-hit--play" type="button" aria-label="장구 리듬 체험 시작하기" title="장구 리듬 체험" onClick={()=>navigate('play')} />
-          </nav>
-          <div className="art-project-links" role="group" aria-label="대표 프로젝트">
-            {projects.map(p=><button key={p.key} type="button" className={"art-hit art-hit--"+p.key}
-              aria-label={p.name+" 프로젝트 확인"} title={p.name+" 프로젝트 확인"} onClick={()=>goWork(p.key)}/>)}
-          </div>
-          <button className="art-sound" type="button" onClick={()=>setSoundOn(v=>!v)}
-            title={soundOn?'소리 끄기':'소리 켜기'} aria-label={soundOn?'소리 끄기':'소리 켜기'} aria-pressed={soundOn}/>
+        <div className="showcase-home" aria-label="조경환의 게임 기획 포트폴리오">
+          <aside className="showcase-nav">
+            <header className="showcase-identity">
+              <strong>조경환</strong>
+              <span>전투 · 시스템 기획자</span>
+            </header>
+            <nav className="showcase-menu" aria-label="주 메뉴">
+              {([
+                {id:'work',label:'포트폴리오',action:()=>goWork(null)},
+                {id:'resume',label:'이력서',action:()=>navigate('resume')},
+                {id:'about',label:'자기소개',action:()=>navigate('about')},
+                {id:'play',label:'시작하기',action:()=>navigate('play')}
+              ] as const).map((item,i)=><motion.button
+                key={item.id} type="button" className={'showcase-menu-item '+(item.id==='play'?'showcase-menu-item--play ':'')+(activeMenu===item.id?'is-active':'')}
+                onHoverStart={()=>setActiveMenu(item.id)} onHoverEnd={()=>setActiveMenu('work')}
+                onFocus={()=>setActiveMenu(item.id)}
+                whileHover={reduced?undefined:{x:6}} whileTap={reduced?undefined:{scale:.975}}
+                transition={{type:'spring',stiffness:450,damping:31}}
+                onClick={item.action}>
+                {activeMenu===item.id && <img className="showcase-brush" src={BASE+'assets/brush-'+(item.id==='play'?'rust':'paper')+'.webp'} alt="" aria-hidden="true"/>}
+                <span className="showcase-menu-count">{String(i+1).padStart(2,'0')}</span>
+                <span className="showcase-menu-label">{item.label}</span>
+              </motion.button>)}
+            </nav>
+            <p className="showcase-optional">게임을 플레이하지 않아도<br/>포트폴리오를 확인할 수 있습니다.</p>
+          </aside>
+          <section className="showcase-scene" aria-label="장구 캐릭터 원화">
+            <motion.img
+              className="showcase-scene-art"
+              src={BASE+'assets/scene-center.webp'}
+              alt="전통 장구를 든 캐릭터와 붓으로 그린 성곽 풍경"
+              draggable={false}
+              animate={reduced?undefined:{scale:activeMenu==='play'?1.023:1,x:activeMenu==='about'?-9:0}}
+              transition={{type:'spring',stiffness:105,damping:22}}
+            />
+            <div className="showcase-scene-tools">
+              <span>장구 리듬 체험</span><span aria-hidden="true">·</span>
+              <button type="button" onClick={()=>setSoundOn(v=>!v)} aria-label={soundOn?'소리 끄기':'소리 켜기'}>
+                {soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}
+                {soundOn?'소리 켜짐':'소리 끄기'}
+              </button>
+            </div>
+          </section>
+          <aside className="showcase-works" aria-label="대표 작업">
+            <header className="showcase-works-heading"><h2>대표 작업</h2><span>총 3개</span></header>
+            <nav className="showcase-projects" aria-label="프로젝트">
+              {projects.map((p,i)=><motion.button
+                key={p.key} type="button" className="showcase-project"
+                onClick={()=>goWork(p.key)}
+                whileHover={reduced?undefined:{x:-5}} whileTap={reduced?undefined:{scale:.985}}
+                transition={{type:'spring',stiffness:440,damping:35}}>
+                <span className="showcase-project-copy">
+                  <small>{String(i+1).padStart(2,'0')} · {i===0?'전투 기획':i===1?'시스템 기획':'기획 도구'}</small>
+                  <strong>{p.name}</strong>
+                  <span>{i===0?'보스 AI / 전투 설계':i===1?'핵심 재미 / 코어 루프':'리뷰 분석 / 시각화'}</span>
+                </span>
+                <span className="showcase-project-visual" aria-hidden="true"><img src={BASE+'assets/'+p.key+'.webp'} alt="" loading="eager"/></span>
+              </motion.button>)}
+            </nav>
+            <footer className="showcase-works-foot">프로젝트 선택 시 기획 과정과 결과를 볼 수 있습니다.</footer>
+          </aside>
         </div>
         <div className="mobile-home">
           <header className="mobile-heading"><strong>조경환</strong><span>전투 · 시스템 기획자</span><button onClick={() => setSoundOn(v => !v)} aria-label="소리 설정">{soundOn ? <Volume2 size={20} /> : <VolumeX size={20} />}</button></header>
-          <div className="mobile-art-window"><img src={artwork} alt="장구를 치는 캐릭터와 수묵화 스타일의 배경" draggable={false} /></div>
+          <div className="mobile-art-window"><img src={BASE+"assets/scene-center.webp"} alt="장구를 치는 캐릭터와 수묵화 스타일의 배경" draggable={false} /></div>
           <nav className="mobile-navigation" aria-label="주 메뉴"><button onClick={() => goWork(null)}>포트폴리오</button><button onClick={() => navigate('resume')}>이력서</button><button onClick={() => navigate('about')}>자기소개</button><button className="mobile-play" onClick={() => navigate('play')}>시작하기</button></nav>
           <h2 className="mobile-project-title">대표 작업</h2><div className="mobile-projects">{projects.map(p => <button key={p.key} onClick={() => goWork(p.key)}><span>{p.name}</span><small>{p.type}</small><ArrowUpRight size={17}/></button>)}</div>
         </div>

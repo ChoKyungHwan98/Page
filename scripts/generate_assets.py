@@ -80,3 +80,15 @@ for name,box in card_rects.items():
   card=src.crop(box).resize((660,357),Image.Resampling.LANCZOS)
   card.save(out/f"{name}.webp","WEBP",quality=88,method=6)
 print("Generated 3 project image crops from master illustration.")
+
+
+# V5: create pure scenic art and ink texture from separate text-free master-art regions.
+# The scene crop never contains menu glyphs or project card overlays.
+center=src.crop((430,0,1230,941))
+center.save(out/"scene-center.webp","WEBP",quality=89,method=6)
+from PIL import ImageEnhance
+nav=src.crop((0,730,270,925)).resize((620,1040),Image.Resampling.LANCZOS)
+nav=ImageEnhance.Contrast(nav).enhance(.85)
+nav=ImageEnhance.Brightness(nav).enhance(.24)
+nav.save(out/"nav-ink.webp","WEBP",quality=85,method=6)
+print("Generated clean scene and ink textures for editorial layout.")

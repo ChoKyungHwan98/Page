@@ -54,3 +54,53 @@
 @media(min-width:1800px){.poster--master-art{height:auto;max-height:none;aspect-ratio:1672/941}.poster--master-art .poster-art{object-fit:fill}}
 @media(max-width:850px){.poster--master-art{display:none}}
 @media(prefers-reduced-motion:reduce){.art-hit,.art-sound{transition:none}}
+
+
+/* V5 — art and interface occupy distinct editorial planes.
+   Background and pigment remain image assets; CSS does layout only. */
+.showcase-home{display:grid;grid-template-columns:minmax(290px,28%) minmax(0,48%) minmax(292px,24%);min-height:max(720px,100dvh);height:100dvh;overflow:hidden;background:#151310;color:#f1eadf}
+.showcase-nav,.showcase-works{position:relative;z-index:2;background:#151310 url('../assets/nav-ink.webp') center/cover no-repeat}
+.showcase-nav{display:flex;flex-direction:column;padding:clamp(35px,4.4vw,72px) clamp(22px,3vw,60px) 36px;border-right:1px solid #d9cec21e;box-shadow:8px 0 30px #100e0c15}
+.showcase-identity{display:flex;flex-direction:column;gap:5px;border-left:3px solid #be4b32;padding-left:18px}
+.showcase-identity strong{font-family:'Gowun Batang',serif;font-size:clamp(22px,1.75vw,31px);font-weight:700;letter-spacing:-.045em}
+.showcase-identity span{font-size:12px;letter-spacing:-.02em;color:#c9bfb4;font-weight:500}
+.showcase-menu{margin-top:clamp(55px,11vh,125px);display:grid;gap:clamp(6px,1vh,15px)}
+.showcase-menu-item{position:relative;display:flex;align-items:center;gap:13px;width:100%;min-height:clamp(57px,8.4vh,83px);padding:0 clamp(9px,1.1vw,21px);color:#f0e9dc;background:transparent;border:0;text-align:left;font-family:'Gowun Batang',serif;font-weight:700;isolation:isolate}
+.showcase-menu-item:after{content:'';position:absolute;bottom:-2px;left:10px;right:8px;border-bottom:1px solid #f5e8d31a}
+.showcase-menu-item.is-active:not(.showcase-menu-item--play){color:#171411}
+.showcase-menu-item--play{margin-top:clamp(16px,2.5vh,35px);color:#fff;font-weight:700}
+.showcase-menu-item--play:after{display:none}
+.showcase-menu-item:hover:not(.is-active){color:#e7ab96}
+.showcase-menu-item.is-active .showcase-brush{opacity:1}
+.showcase-brush{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:fill;pointer-events:none;filter:drop-shadow(0 3px 0 #110c0839)}
+.showcase-menu-count{font:700 11px 'Noto Sans KR',sans-serif;min-width:22px;color:#bcaaa0}
+.showcase-menu-item.is-active:not(.showcase-menu-item--play) .showcase-menu-count{color:#b4442f}
+.showcase-menu-label{font-size:clamp(20px,1.72vw,32px);white-space:nowrap;letter-spacing:-.09em;line-height:1.3}
+.showcase-menu-item:focus-visible{outline:2px solid #df9779;outline-offset:3px}
+.showcase-optional{margin-top:auto;font-size:12px;line-height:1.95;color:#b9aea1}
+.showcase-scene{position:relative;overflow:hidden;background:#e6dfd4}
+.showcase-scene-art{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;transform-origin:center center;user-select:none;pointer-events:none}
+.showcase-scene:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,#100f0d38,transparent 14%,transparent 88%,#1a161549)}
+.showcase-scene-tools{position:absolute;bottom:clamp(22px,4vh,44px);left:clamp(15px,2vw,38px);display:flex;align-items:center;gap:9px;background:#1a1714d9;color:#faf5e9;padding:10px 15px;z-index:2;font-size:12px}
+.showcase-scene-tools button{color:inherit;border:0;background:transparent;display:inline-flex;align-items:center;gap:6px;font-size:12px}
+.showcase-scene-tools button:hover{text-decoration:underline}
+.showcase-works{padding:clamp(36px,4.3vw,70px) clamp(20px,2.15vw,42px) 36px;display:flex;flex-direction:column;border-left:1px solid #cfb39c36;box-shadow:-7px 0 24px #100e0c18}
+.showcase-works-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:25px;border-bottom:1px solid #f4ede22d}
+.showcase-works-heading h2{font-family:'Gowun Batang',serif;font-size:clamp(22px,1.7vw,29px);font-weight:700;margin:0}
+.showcase-works-heading span{font-size:11px;color:#b8ac9b;white-space:nowrap}
+.showcase-projects{margin-top:clamp(23px,3.1vh,34px);display:grid}
+.showcase-project{display:flex;align-items:center;width:100%;height:clamp(124px,16.5vh,163px);text-align:left;color:inherit;background:transparent;border:0;border-bottom:1px solid #d8caba46;padding:14px 0;gap:8px;transition:background-color .22s}
+.showcase-project:hover{background:#38221a48}
+.showcase-project-copy{display:flex;flex-direction:column;flex:1;min-width:0;gap:clamp(5px,.65vh,10px)}
+.showcase-project-copy small{color:#c85a42;font-size:10px;white-space:nowrap}
+.showcase-project-copy strong{font-size:clamp(16px,1.45vw,25px);line-height:1.12;letter-spacing:-.05em;font-weight:800;white-space:nowrap}
+.showcase-project-copy>span{font-size:11px;color:#bcb2a6;white-space:nowrap}
+.showcase-project-visual{display:block;flex:0 0 38%;height:min(83px,10vh);overflow:hidden}
+.showcase-project-visual img{width:100%;height:100%;object-fit:cover;transition:transform .35s cubic-bezier(.2,.8,.2,1);filter:contrast(1.1)}
+.showcase-project:hover .showcase-project-visual img{transform:scale(1.1)}
+.showcase-works-foot{margin-top:auto;padding-top:16px;border-top:1px solid #f0e6d524;color:#aea295;font-size:11px;line-height:1.75}
+.mobile-art-window img{object-position:center 55%}
+@media(min-width:1800px){.showcase-home{grid-template-columns:26% 53% 21%}}
+@media(max-width:1200px) and (min-width:851px){.showcase-home{grid-template-columns:27% 47% 26%}.showcase-nav{padding-left:24px;padding-right:19px}.showcase-works{padding-left:19px;padding-right:19px}.showcase-menu-label{font-size:21px}.showcase-project-visual{flex-basis:30%}}
+@media(max-width:850px){.showcase-home{display:none}}
+@media(prefers-reduced-motion:reduce){.showcase-project-visual img{transition:none}}
